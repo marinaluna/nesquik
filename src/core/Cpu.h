@@ -20,6 +20,10 @@
 
 namespace Core
 {
+	namespace Memory {
+		class RAM;
+	}
+
 
 	class Cpu
 	{
@@ -31,13 +35,16 @@ namespace Core
 		u8 reg_SP;
 		u8 reg_P;
 		u16 reg_PC;
+		// System RAM
+		Memory::RAM* ram;
 
 	public:
-
 		Cpu(std::shared_ptr<Bus>& _bus);
 
-		void reset();
+		bool reset();
 		void run(int cycles);
+
+		Memory::RAM* getRAM();
 	};
 
 } // namespace Core

@@ -18,27 +18,33 @@
 
 #include "common/Common.h"
 #include "core/Cpu.h"
-//#include "core/PPU.h"
 #include "core/Bus.h"
 
+namespace Core {
+	namespace Memory {
+		class Cart;
+	}
 
+	class Cpu;
+}
+
+ 
 class NES
 {
 private:
+	Core::Memory::Cart* cart;
+
 	std::unique_ptr<Core::Cpu> cpu;
-	//std::unique_ptr<PPU> ppu;
-
+	//std::unique_ptr<Core::PPU> ppu;
 	std::shared_ptr<Core::Bus> bus;
-
-	std::vector<u8> rom;
 
 	bool isRunning;
 
 public:
-	NES(std::vector<u8>& _rom);
+	NES(std::vector<u8>& romBytes);
 
-	void start();
+	bool boot();
 	void stop();
-	
+
 	void tick();
 };

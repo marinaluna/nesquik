@@ -55,8 +55,9 @@ int main(int argc, char** argv)
 		std::cout << "Rom loaded!" << std::endl;
 
 		NES* nes = new NES(rom);
-		nes->start();
-		// Main loop
-		nes->tick();
+		if(nes->boot()) {
+			// Main loop
+			nes->tick();
+		}
 	}
 }

@@ -17,29 +17,28 @@
 #include "../common/Common.h"
 
 
-enum MemorySpace
-{
-	SYS, PPU
-};
-
 namespace Core
 {
+	namespace Memory
+	{
+		class MemoryComponent;
+	}
 
 	class Bus
 	{
 	private:
-		// General system memory and graphics memory
-		// For some reason these don't share the same memory space
-		std::vector<u8> memSys;
-		std::vector<u8> memPPU;
+		std::vector<Memory::MemoryComponent*> components;
+
 	public:
-		u8 read8(u16 addr, MemorySpace memspace);
-		void write8(u16 addr, u8 byte, MemorySpace memspace);
-		u16 read16(u16 addr, MemorySpace memspace);
-		void write16(u16 addr, u16 word, MemorySpace memspace);
-		void writeBytes(const std::vector<u8>& src, u16 addr, MemorySpace memspace);
+		u8 read8(u16 addr);
+		void write8(u16 addr, u8 byte);
+		u16 read16(u16 addr);
+		void write16(u16 addr, u16 word);
+		void writeBytes(const std::vector<u8>& src, u16 addr);
 
 		Bus();
+
+		void addComponent(Memory::MemoryComponent* component);
 	};
 
 } // namespace Core

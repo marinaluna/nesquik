@@ -13,20 +13,37 @@
 // limitations under the License.
 #include "NES.h"
 
-#include <iostream>
-NES::NES(std::vector<u8>& _rom)
-:	rom(_rom)
+#include "core/memory/MemoryComponent.h"
+#include "core/memory/RAM.h"
+#include "core/memory/Cart.h"
+#include "core/Cpu.h"
+
+
+NES::NES(std::vector<u8>& romBytes)
 {
 	bus = std::make_shared<Core::Bus>();
-
 	cpu = std::make_unique<Core::Cpu>(bus);
-	//ppu = std::make_unique<PPU>();
+	//ppu = std::make_unique<Core::PPU>();
+
+	cart = new Core::Memory::Cart(romBytes);
+
+	bus->addComponent(cart);
+	bus->addComponent(cpu->getRAM());
+	//bus->addComponent(ppu);
 }
 
-void NES::start()
+/////////////////////////
+// Returns true if boots
+// successfully
+/////////////////////////
+bool NES::boot()
 {
-	cpu->reset();
-	isRunning = true;
+	bool success = false;
+
+	success = cart->load() && cpu->reset();
+	
+	isRunning = success;
+	return success;
 }
 
 void NES::stop()
@@ -38,7 +55,7 @@ void NES::tick()
 {
 	while(isRunning)
 	{
-		std::cout << "It works!\n";
+
 		cpu->run(1);
 	}
 }

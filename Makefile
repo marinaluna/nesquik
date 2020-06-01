@@ -26,4 +26,6 @@ clean:
 	mkdir build
 	mkdir build/src
 	mkdir build/src/core
+	mkdir build/src/core/memory
+	mkdir build/src/core/memory/mappers
 	mkdir build/src/common

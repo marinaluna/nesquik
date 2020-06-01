@@ -13,24 +13,35 @@
 // limitations under the License.
 #include "Cpu.h"
 
+#include "memory/RAM.h"
+
+
 namespace Core
 {
 
 Cpu::Cpu(std::shared_ptr<Core::Bus>& _bus)
-:	bus(_bus)
+:	bus(_bus),
+	ram(new Memory::RAM())
 {}
 
-void Cpu::reset()
+bool Cpu::reset()
 {
 	reg_P = STATUS_BREAKCMD | STATUS_DISABLEINT;
 	reg_A = reg_X = reg_Y = 0x00;
 	reg_SP = 0xFD;
-	reg_PC = bus->read16(0xFFFC, MemorySpace::SYS);
+	reg_PC = bus->read16(0xFFFC);
+
+	return true;
 }
 
 void Cpu::run(int cycles)
 {
 	// TODO - cycle
+}
+
+Memory::RAM* Cpu::getRAM()
+{
+	return ram;
 }
 
 } // namespace Core
