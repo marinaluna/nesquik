@@ -14,7 +14,6 @@
 #pragma once
 #include "Mapper.h"
 
-namespace Core {
 namespace Memory {
 
 	class MapperNROM : public Mapper
@@ -27,4 +26,3 @@ namespace Memory {
 	};
 
 } // namespace Memory
-} // namespace Core

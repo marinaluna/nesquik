@@ -13,7 +13,6 @@
 // limitations under the License.
 #include "MapperNROM.h"
 
-namespace Core {
 namespace Memory {
 
 void MapperNROM::write8(u16 addr, u8 byte)
@@ -27,4 +26,3 @@ u8 MapperNROM::read8(u16 addr)
 }
 
 } // namespace Memory
-} // namespace Core

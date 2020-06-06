@@ -25,7 +25,7 @@ NES::NES(std::vector<u8>& romBytes)
 	cpu = std::make_unique<Core::Cpu>(bus);
 	//ppu = std::make_unique<Core::PPU>();
 
-	cart = new Core::Memory::Cart(romBytes);
+	cart = new Memory::Cart(romBytes);
 
 	bus->addComponent(cart);
 	bus->addComponent(cpu->getRAM());

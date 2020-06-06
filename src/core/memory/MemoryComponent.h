@@ -15,7 +15,6 @@
 #include "../../common/Common.h"
 
 
-namespace Core {
 namespace Memory {
 
 	class MemoryComponent
@@ -28,4 +27,3 @@ namespace Memory {
 	};
 
 } // namespace Memory
-} // namespace Core

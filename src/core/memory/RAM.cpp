@@ -13,7 +13,6 @@
 // limitations under the License.
 #include "RAM.h"
 
-namespace Core {
 namespace Memory {
 
 void RAM::write8(u16 addr, u8 byte)
@@ -27,4 +26,3 @@ u8 RAM::read8(u16 addr)
 }
 
 } // namespace Memory
-} // namespace Core

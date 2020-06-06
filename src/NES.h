@@ -21,18 +21,17 @@
 #include "core/Bus.h"
 
 namespace Core {
-	namespace Memory {
-		class Cart;
-	}
-
 	class Cpu;
+}
+namespace Memory {
+	class Cart;
 }
 
  
 class NES
 {
 private:
-	Core::Memory::Cart* cart;
+	Memory::Cart* cart;
 
 	std::unique_ptr<Core::Cpu> cpu;
 	//std::unique_ptr<Core::PPU> ppu;

@@ -14,7 +14,6 @@
 #pragma once
 #include "MemoryComponent.h"
 
-namespace Core {
 namespace Memory {
 
 	class RAM : public MemoryComponent
@@ -27,4 +26,3 @@ namespace Memory {
 	};
 
 } // namespace Memory
-} // namespace Core

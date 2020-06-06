@@ -19,7 +19,6 @@
 #include "MemoryComponent.h"
 
 
-namespace Core {
 namespace Memory {
 	class Mapper;
 
@@ -61,4 +60,3 @@ namespace Memory {
 	};
 
 } // namespace Memory
-} // namespace Core

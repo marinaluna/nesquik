@@ -21,7 +21,6 @@ const u8 iNESMagic[4] = {
 	0x4E, 0x45, 0x53, 0x1A
 };
 
-namespace Core {
 namespace Memory {
 
 bool Cart::load()
@@ -108,4 +107,3 @@ u8 Cart::read8(u16 addr)
 }
 
 } // namespace Memory
-} // namespace Core

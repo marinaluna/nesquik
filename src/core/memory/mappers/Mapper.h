@@ -14,7 +14,6 @@
 #pragma once
 #include "../../../common/Common.h"
 
-namespace Core {
 namespace Memory {
 	class Cart;
 
@@ -30,4 +29,3 @@ namespace Memory {
 	};
 
 } // namespace Memory
-} // namespace Core

@@ -17,13 +17,12 @@
 #include "../common/Common.h"
 #include "Bus.h"
 
+namespace Memory {
+	class RAM;
+}
 
 namespace Core
 {
-	namespace Memory {
-		class RAM;
-	}
-
 
 	class Cpu
 	{
