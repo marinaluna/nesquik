@@ -26,7 +26,7 @@ namespace Core
 	class Bus
 	{
 	private:
-		std::vector<::Memory::MemoryComponent*> components;
+		std::vector<Memory::MemoryComponent*> components;
 
 	public:
 		u8 read8(u16 addr);
@@ -37,7 +37,7 @@ namespace Core
 
 		Bus();
 
-		void addComponent(::Memory::MemoryComponent* component);
+		void addComponent(Memory::MemoryComponent* component);
 	};
 
 } // namespace Core
