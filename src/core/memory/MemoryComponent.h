@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 #pragma once
+#include <vector>
+
 #include "../../common/Common.h"
 
 
@@ -19,11 +21,14 @@ namespace Memory {
 
 	class MemoryComponent
 	{
-	protected:
+	public:
 		MemoryComponent() {}
 
 		virtual void write8(u16 addr, u8 byte) = 0;
 		virtual u8 read8(u16 addr) = 0;
+		virtual void write16(u16 addr, u16 word) = 0;
+		virtual u16 read16(u16 addr) = 0;
+		virtual void writeBytes(const std::vector<u8>& bytes, u16 addr) = 0;
 	};
 
 } // namespace Memory

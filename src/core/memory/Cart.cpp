@@ -51,20 +51,26 @@ bool Cart::parseiNESHeader()
 
 	header.prgRomBanks = raw.at(0x04);
 	LOG_HEX("PRG banks: ", 2, header.prgRomBanks);
+	header.chrRomBanks = raw.at(0x05);
+	LOG_HEX("CHR banks: ", 2, header.chrRomBanks);
 
 	uint prgSize = 0x4000 * header.prgRomBanks;
-	prgRom.resize(prgSize);
-	if(raw.size() < 0x10 + prgSize) {
+	uint chrSize = 0x2000 * header.chrRomBanks;
+
+	if(raw.size() < 0x10 + prgSize + chrSize) {
 		LOG_ERR("Rom smaller than specified in header! Aborting!");
 		return false;
 	}
-	for(int i = 0x0000; i < prgSize; i++){
+
+	prgRom.resize(prgSize);
+	chrRom.resize(chrSize);
+
+	for(int i = 0x0000; i < prgSize; i++) {
 		prgRom.at(i) = raw.at(0x10 + i);
 	}
-
-	header.chrRomBanks = raw.at(0x05);
-	LOG_HEX("CHR banks: ", 2, header.chrRomBanks);
-	chrRom.resize(0x2000 * header.chrRomBanks);
+	for(int i = 0x0000; i < chrSize; i++) {
+		chrRom.at(i) = raw.at(0x10 + prgSize + i);
+	}
 
 	header.mirrorType = (raw.at(0x06) & 0x01)? MirroringType::VERTICAL : MirroringType::HORIZONTAL;
 	header.hasPersistantRAM = raw.at(0x06) & 0x02;
@@ -98,12 +104,43 @@ bool Cart::setMapper(u8 mapperType)
 
 void Cart::write8(u16 addr, u8 byte)
 {
-
+	getCartSection(addr).at(addr) = byte;
 }
 
 u8 Cart::read8(u16 addr)
 {
-	return 0xFF;
+	return getCartSection(addr).at(addr);
+}
+
+void Cart::write16(u16 addr, u16 word)
+{
+	std::vector<u8>& cartSect = getCartSection(addr);
+	cartSect.at(addr) = word & 0xFF;
+	cartSect.at(addr + 1) = (word & 0xFF00) >> 8;
+}
+
+u16 Cart::read16(u16 addr)
+{
+	std::vector<u8>& cartSect = getCartSection(addr);
+	return cartSect.at(addr) | (cartSect.at(addr + 1) << 8);
+}
+
+void Cart::writeBytes(const std::vector<u8>& bytes, u16 addr)
+{
+
+}
+
+std::vector<u8>& Cart::getCartSection(u16& addr)
+{
+	if(addr >= 0x0000 && addr < 0x1FE0) { // Expansion ROM: 0x4020 - 0x5FFF
+		return expRom;
+	} else if(addr >= 0x1FE0 && addr < 0x3FE0) { // SRAM: 0x6000 - 0x7FFF
+		addr -= 0x1FE0;
+		return sram;
+	} else {		  					  // Else, use PRG ROM: 0x8000 - 0xFFFF
+		addr -= 0x3FE0;
+		return prgRom;
+	}
 }
 
 } // namespace Memory

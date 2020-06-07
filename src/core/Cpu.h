@@ -38,11 +38,12 @@ namespace Core
 		Memory::RAM* ram;
 
 	public:
-		Cpu(std::shared_ptr<Bus>& _bus);
+		Cpu();
 
 		bool reset();
 		void run(int cycles);
 
+		void setBus(std::shared_ptr<Bus>& _bus);
 		Memory::RAM* getRAM();
 	};
 

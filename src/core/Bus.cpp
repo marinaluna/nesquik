@@ -13,45 +13,54 @@
 // limitations under the License.
 #include "Bus.h"
 
+#include "memory/MemoryComponent.h"
+#include "memory/Cart.h"
+#include "memory/RAM.h"
 
 namespace Core
 {
 
-Bus::Bus()
+Bus::Bus(Memory::RAM* _cpuRam, Memory::Cart* _cart)
+:	cpuRam(_cpuRam),
+	cart(_cart)
 {}
 
-u8 Bus::read8(u16 addr)
-{
-	return 0xFF;
+u8 Bus::read8(u16 addr) {
+	return getComponentForAddr(addr)->read8(addr);
 }
 
-void Bus::write8(u16 addr, u8 byte)
-{
-
+void Bus::write8(u16 addr, u8 byte) {
+	getComponentForAddr(addr)->write8(addr, byte);
 }
 
-u16 Bus::read16(u16 addr)
-{
-	return 0xFFFF;
+u16 Bus::read16(u16 addr) {
+	return getComponentForAddr(addr)->read16(addr);
 }
 
-void Bus::write16(u16 addr, u16 word)
-{
-	
+void Bus::write16(u16 addr, u16 word) {
+	getComponentForAddr(addr)->write16(addr, word);
 }
 
-void Bus::writeBytes(const std::vector<u8>& src, u16 addr)
+void Bus::writeBytes(const std::vector<u8>& src, u16 addr) {
+	getComponentForAddr(addr)->writeBytes(src, addr);
+}
+
+//////////////////////////////
+// Returns Component and
+// offsets the address to
+// the component's base addr
+//////////////////////////////
+Memory::MemoryComponent* Bus::getComponentForAddr(u16& addr)
 {
-	u16 counter = 0;
-	for(u8 byte : src) {
-		write8(addr + counter, byte);
-		counter++;
+	// TODO: Separate IO regs
+	if(addr >= 0x0000 && addr < 0x4020) {
+		return cpuRam;
+	} else if(addr >= 0x4020 && addr <= 0xFFFF) {
+		addr -= 0x4020;
+		return cart;
 	}
-}
-
-void Bus::addComponent(Memory::MemoryComponent* component)
-{
-	components.push_back(component);
+	// TODO: Error handling
+	return cpuRam;
 }
 
 } // namespace Core

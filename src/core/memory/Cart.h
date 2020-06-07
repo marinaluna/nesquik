@@ -1,3 +1,4 @@
+// Copyright (C) 2020 Marina Terry
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,11 +44,15 @@ namespace Memory {
 		
 		std::vector<u8> prgRom;
 		std::vector<u8> chrRom;
+		std::vector<u8> expRom;
+		std::vector<u8> sram;
 
 		bool parseiNESHeader();
 		bool parseNES2Header();
 
 		bool setMapper(u8 mapperType);
+
+		std::vector<u8>& getCartSection(u16& addr);
 
 	public:
 
@@ -57,6 +62,9 @@ namespace Memory {
 
 		virtual void write8(u16 addr, u8 byte) override;
 		virtual u8 read8(u16 addr) override;
+		virtual void write16(u16 addr, u16 word) override;
+		virtual u16 read16(u16 addr) override;
+		virtual void writeBytes(const std::vector<u8>& bytes, u16 addr) override;
 	};
 
 } // namespace Memory

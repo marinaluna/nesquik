@@ -25,4 +25,19 @@ u8 RAM::read8(u16 addr)
 	return 0xFF;
 }
 
+void RAM::write16(u16 addr, u16 word)
+{
+
+}
+
+u16 RAM::read16(u16 addr)
+{
+	return 0xFFFF;
+}
+
+void RAM::writeBytes(const std::vector<u8>& bytes, u16 addr)
+{
+
+}
+
 } // namespace Memory

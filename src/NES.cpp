@@ -21,15 +21,12 @@
 
 NES::NES(std::vector<u8>& romBytes)
 {
-	bus = std::make_shared<Core::Bus>();
-	cpu = std::make_unique<Core::Cpu>(bus);
-	//ppu = std::make_unique<Core::PPU>();
-
+	cpu = std::make_unique<Core::Cpu>();
 	cart = new Memory::Cart(romBytes);
 
-	bus->addComponent(cart);
-	bus->addComponent(cpu->getRAM());
-	//bus->addComponent(ppu);
+	bus = std::make_shared<Core::Bus>(cpu->getRAM(), cart);
+
+	cpu->setBus(bus);
 }
 
 /////////////////////////

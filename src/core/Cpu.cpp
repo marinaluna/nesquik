@@ -19,9 +19,8 @@
 namespace Core
 {
 
-Cpu::Cpu(std::shared_ptr<Core::Bus>& _bus)
-:	bus(_bus),
-	ram(new Memory::RAM())
+Cpu::Cpu()
+:	ram(new Memory::RAM())
 {}
 
 bool Cpu::reset()
@@ -37,6 +36,11 @@ bool Cpu::reset()
 void Cpu::run(int cycles)
 {
 	// TODO - cycle
+}
+
+void Cpu::setBus(std::shared_ptr<Bus>& _bus)
+{
+	this->bus = _bus;
 }
 
 Memory::RAM* Cpu::getRAM()

@@ -17,16 +17,20 @@
 #include "../common/Common.h"
 
 namespace Memory {
+	class RAM;
+	class Cart;
 	class MemoryComponent;
 }
 
 namespace Core
 {
-
 	class Bus
 	{
 	private:
-		std::vector<Memory::MemoryComponent*> components;
+		Memory::RAM* cpuRam;
+		Memory::Cart* cart;
+
+		Memory::MemoryComponent* getComponentForAddr(u16& addr);
 
 	public:
 		u8 read8(u16 addr);
@@ -35,9 +39,7 @@ namespace Core
 		void write16(u16 addr, u16 word);
 		void writeBytes(const std::vector<u8>& src, u16 addr);
 
-		Bus();
-
-		void addComponent(Memory::MemoryComponent* component);
+		Bus(Memory::RAM* _cpuRam, Memory::Cart* _cart);
 	};
 
 } // namespace Core

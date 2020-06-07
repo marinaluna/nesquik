@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 #pragma once
+#include <vector>
+
 #include "MemoryComponent.h"
+
 
 namespace Memory {
 
@@ -23,6 +26,9 @@ namespace Memory {
 
 		virtual void write8(u16 addr, u8 byte) override;
 		virtual u8 read8(u16 addr) override;
+		virtual void write16(u16 addr, u16 word) override;
+		virtual u16 read16(u16 addr) override;
+		virtual void writeBytes(const std::vector<u8>& bytes, u16 addr) override;
 	};
 
 } // namespace Memory
