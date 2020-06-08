@@ -19,10 +19,13 @@
 struct Registers;
 
 // For colored text
-#define CYAN "\033[36m"
-#define YELLOW "\033[33m"
-#define RED "\033[31m"
 #define NOCOLOR "\033[0m"
+#define BOLD "\033[1m"
+#define BLACK "\033[30m"
+#define RED "\033[31m"
+#define YELLOW "\033[33m"
+#define CYAN "\033[36m"
+#define WHITE_BG "\033[47m"
 
 #define PRINTHEX(width) std::hex << std::setw(width) << std::setfill('0')
 
@@ -34,4 +37,5 @@ namespace Debug
 	void LogError(const std::string& msg);
 	void LogRegisters(const Registers& regs);
 	void LogMemory(u16 addr, int bytes, std::shared_ptr<Core::Bus>& bus);
+	void LogDisassembly(u16 addr, int instructions, std::shared_ptr<Core::Bus>& bus);
 } // namespace Debug

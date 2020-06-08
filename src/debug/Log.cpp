@@ -80,12 +80,19 @@ namespace Debug
 
 			// Print the address base
 			std::cout << YELLOW << "0h" << PRINTHEX(4) << std::uppercase << addr + (row * 16) << NOCOLOR;
+
+			std::cout << WHITE_BG << BLACK << BOLD;
 			// Print the row, one byte at a time
 			for(int byte = 0; byte < rowLen; byte++) {
 				std::cout << " " << PRINTHEX(2) << std::uppercase << (int) mem.at(byte + (row * 16));
 			}
-			std::cout << std::endl;
+			std::cout << NOCOLOR << std::endl;
 		}
+	}
+
+	void LogDisassembly(u16 addr, int instructions, std::shared_ptr<Core::Bus>& bus)
+	{
+		// TODO
 	}
 
 } // namespace Debug
