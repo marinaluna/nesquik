@@ -38,6 +38,7 @@ namespace Core
 		u16 read16(u16 addr);
 		void write16(u16 addr, u16 word);
 		void writeBytes(const std::vector<u8>& src, u16 addr);
+		void readBytes(u16 addr, std::vector<u8>& dest, int bytes);
 
 		Bus(Memory::RAM* _cpuRam, Memory::Cart* _cart);
 	};

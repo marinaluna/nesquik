@@ -65,6 +65,7 @@ namespace Memory {
 		virtual void write16(u16 addr, u16 word) override;
 		virtual u16 read16(u16 addr) override;
 		virtual void writeBytes(const std::vector<u8>& bytes, u16 addr) override;
+		virtual void readBytes(u16 addr, std::vector<u8>& dest, int bytes) override;
 	};
 
 } // namespace Memory

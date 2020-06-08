@@ -21,6 +21,17 @@ namespace Memory {
 	class RAM;
 }
 
+struct Registers {
+	// General purpose regs
+	u8 X, Y, A;
+	// Stack pointer
+	u8 SP;
+	// Status register
+	u8 P;
+	// Program counter
+	u16 PC;
+};
+
 namespace Core
 {
 
@@ -28,12 +39,8 @@ namespace Core
 	{
 	private:
 		std::shared_ptr<Bus> bus;
-		// General purpose registers
-		u8 reg_X, reg_Y, reg_A;
-		// Special purpose registers
-		u8 reg_SP;
-		u8 reg_P;
-		u16 reg_PC;
+
+		Registers regs;
 		// System RAM
 		Memory::RAM* ram;
 
@@ -44,6 +51,7 @@ namespace Core
 		void run(int cycles);
 
 		void setBus(std::shared_ptr<Bus>& _bus);
+
 		Memory::RAM* getRAM();
 	};
 

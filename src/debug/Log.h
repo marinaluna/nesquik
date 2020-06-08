@@ -12,10 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 #pragma once
-#include <iostream>
-#include <iomanip>
+#include <string>
+#include <memory>
+
+#include "../core/Bus.h"
+struct Registers;
+
+// For colored text
+#define CYAN "\033[36m"
+#define YELLOW "\033[33m"
+#define RED "\033[31m"
+#define NOCOLOR "\033[0m"
+
+#define PRINTHEX(width) std::hex << std::setw(width) << std::setfill('0')
 
 
-#define LOG_INFO(msg) std::cout << "INFO: " << msg << std::endl;
-#define LOG_ERR(msg) std::cout << "ERROR: " << msg << std::endl;
-#define LOG_HEX(msg, width, num) std::cout << msg << std::hex << std::setw(width) << std::setfill('0') << (int)num << std::endl;
+namespace Debug
+{
+	void LogInfo(const std::string& msg);
+	void LogHex(const std::string& msg, int width, int num);
+	void LogError(const std::string& msg);
+	void LogRegisters(const Registers& regs);
+	void LogMemory(u16 addr, int bytes, std::shared_ptr<Core::Bus>& bus);
+} // namespace Debug

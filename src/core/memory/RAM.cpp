@@ -40,4 +40,9 @@ void RAM::writeBytes(const std::vector<u8>& bytes, u16 addr)
 
 }
 
+void RAM::readBytes(u16 addr, std::vector<u8>& dest, int bytes)
+{
+	
+}
+
 } // namespace Memory

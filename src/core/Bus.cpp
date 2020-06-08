@@ -45,6 +45,10 @@ void Bus::writeBytes(const std::vector<u8>& src, u16 addr) {
 	getComponentForAddr(addr)->writeBytes(src, addr);
 }
 
+void Bus::readBytes(u16 addr, std::vector<u8>& dest, int bytes) {
+	getComponentForAddr(addr)->readBytes(addr, dest, bytes);
+}
+
 //////////////////////////////
 // Returns Component and
 // offsets the address to

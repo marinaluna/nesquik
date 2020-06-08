@@ -14,6 +14,7 @@
 #include "Cpu.h"
 
 #include "memory/RAM.h"
+#include "../debug/Log.h"
 
 
 namespace Core
@@ -25,10 +26,13 @@ Cpu::Cpu()
 
 bool Cpu::reset()
 {
-	reg_P = STATUS_BREAKCMD | STATUS_DISABLEINT;
-	reg_A = reg_X = reg_Y = 0x00;
-	reg_SP = 0xFD;
-	reg_PC = bus->read16(0xFFFC);
+	regs.P = STATUS_BREAKCMD | STATUS_DISABLEINT;
+	regs.A = regs.X = regs.Y = 0x00;
+	regs.SP = 0xFD;
+	regs.PC = bus->read16(0xFFFC);
+
+	Debug::LogRegisters(regs);
+	Debug::LogMemory(0x8000, 300, bus);
 
 	return true;
 }

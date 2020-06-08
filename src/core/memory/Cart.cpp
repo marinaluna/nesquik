@@ -26,15 +26,15 @@ namespace Memory {
 bool Cart::load()
 {
 	if(memcmp(raw.data(), iNESMagic, 4) == 0) {
-		LOG_INFO("Detected iNES ROM!");
+		Debug::LogInfo("Detected iNES ROM!");
 
 		if((raw.at(0x07) & 0x0C) == 0x08) {
-			LOG_INFO("Detected NES2.0 ROM!");
+			Debug::LogInfo("Detected NES2.0 ROM!");
 			return parseiNESHeader() && parseNES2Header();
 		}
 		return parseiNESHeader();
 	} else {
-		LOG_ERR("Rom format unsupported!");
+		Debug::LogError("Rom format unsupported!");
 		return false;
 	}
 }
@@ -45,20 +45,20 @@ bool Cart::parseiNESHeader()
 
 	header.hasTrainer = raw.at(6) & 0x04;
 	if(header.hasTrainer) {
-		LOG_ERR("Trainer support not implemented!");
+		Debug::LogError("Trainer support not implemented!");
 		return false;
 	}
 
 	header.prgRomBanks = raw.at(0x04);
-	LOG_HEX("PRG banks: ", 2, header.prgRomBanks);
+	Debug::LogHex("PRG banks: ", 2, header.prgRomBanks);
 	header.chrRomBanks = raw.at(0x05);
-	LOG_HEX("CHR banks: ", 2, header.chrRomBanks);
+	Debug::LogHex("CHR banks: ", 2, header.chrRomBanks);
 
-	uint prgSize = 0x4000 * header.prgRomBanks;
-	uint chrSize = 0x2000 * header.chrRomBanks;
+	unsigned int prgSize = 0x4000 * header.prgRomBanks;
+	unsigned int chrSize = 0x2000 * header.chrRomBanks;
 
 	if(raw.size() < 0x10 + prgSize + chrSize) {
-		LOG_ERR("Rom smaller than specified in header! Aborting!");
+		Debug::LogError("Rom smaller than specified in header! Aborting!");
 		return false;
 	}
 
@@ -82,13 +82,13 @@ bool Cart::parseiNESHeader()
 bool Cart::parseNES2Header()
 {
 	// TODO
-	LOG_ERR("NES2 not implemented!");
+	Debug::LogError("NES2 not implemented!");
 	return false;
 }
 
 bool Cart::setMapper(u8 mapperType)
 {
-	LOG_HEX("ROM Mapper Type: ", 2, mapperType);
+	Debug::LogHex("ROM Mapper Type: ", 2, mapperType);
 
 	switch(mapperType)
 	{
@@ -96,7 +96,7 @@ bool Cart::setMapper(u8 mapperType)
 			mapper = new MapperNROM(this);
 			break;
 		default:
-			LOG_ERR("Mapper not supported!");
+			Debug::LogError("Mapper not supported!");
 			return false;
 	}
 	return true;
@@ -128,6 +128,14 @@ u16 Cart::read16(u16 addr)
 void Cart::writeBytes(const std::vector<u8>& bytes, u16 addr)
 {
 
+}
+
+void Cart::readBytes(u16 addr, std::vector<u8>& dest, int bytes)
+{
+	std::vector<u8>& cartSect = getCartSection(addr);
+	for(int i = 0; i < bytes; i++) {
+		dest.at(i) = cartSect.at(addr + i);
+	}
 }
 
 std::vector<u8>& Cart::getCartSection(u16& addr)
