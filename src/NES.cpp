@@ -53,6 +53,6 @@ void NES::tick()
 	while(isRunning)
 	{
 
-		cpu->run(1);
+		cpu->step(1);
 	}
 }

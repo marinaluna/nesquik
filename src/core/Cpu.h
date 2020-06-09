@@ -27,7 +27,9 @@ struct Registers {
 	// Stack pointer
 	u8 SP;
 	// Status register
-	u8 P;
+	struct {
+		bool C, Z, I, D, B, V, N;
+	} P;
 	// Program counter
 	u16 PC;
 };
@@ -41,6 +43,8 @@ namespace Core
 		std::shared_ptr<Bus> bus;
 
 		Registers regs;
+		u8 currentOpcode;
+		u64 cycles;
 		// System RAM
 		Memory::RAM* ram;
 
@@ -48,7 +52,18 @@ namespace Core
 		Cpu();
 
 		bool reset();
-		void run(int cycles);
+		void step(int cycles);
+		void doInstruction();
+
+		void ORA(u8 op);
+		void ADC(u8 op);
+		void AND(u8 op);
+		void ASL(u16 opAddr);
+		void BCC();
+		void BRK();
+
+		u8 fetch8();
+		u16 fetch16();
 
 		void setBus(std::shared_ptr<Bus>& _bus);
 

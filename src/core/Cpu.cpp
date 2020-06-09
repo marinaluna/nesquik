@@ -26,7 +26,8 @@ Cpu::Cpu()
 
 bool Cpu::reset()
 {
-	regs.P = STATUS_BREAKCMD | STATUS_DISABLEINT;
+	regs.P.B = true;
+	regs.P.I = true;
 	regs.A = regs.X = regs.Y = 0x00;
 	regs.SP = 0xFD;
 	regs.PC = bus->read16(0xFFFC);
@@ -37,9 +38,21 @@ bool Cpu::reset()
 	return true;
 }
 
-void Cpu::run(int cycles)
+void Cpu::step(int cycles)
 {
-	// TODO - cycle
+	doInstruction();
+}
+
+u8 Cpu::fetch8()
+{
+	return bus->read8(regs.PC++);
+}
+
+u16 Cpu::fetch16()
+{
+	u16 retval = bus->read16(regs.PC);
+	regs.PC += 2;
+	return retval;
 }
 
 void Cpu::setBus(std::shared_ptr<Bus>& _bus)
