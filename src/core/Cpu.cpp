@@ -40,7 +40,7 @@ bool Cpu::reset()
 
 void Cpu::step(int cycles)
 {
-	doInstruction();
+	//doInstruction();
 }
 
 u8 Cpu::fetch8()

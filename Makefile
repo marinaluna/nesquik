@@ -1,4 +1,4 @@
-BINARY := build/ajax
+BINARY := build/nesquik
 SRCS := $(shell find . -iname "*.cpp")
 OBJS := $(addprefix build/,$(SRCS:.cpp=.o))
 

@@ -39,13 +39,19 @@ namespace Debug
 
 	void LogRegisters(const Registers& regs)
 	{
-		std::cout << CYAN << "Registers:"
-		<< CYAN << "\nX: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.X
-		<< CYAN << "\nY: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.Y
-		<< CYAN << "\nA: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.A
-		<< CYAN << "\nP: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.P
-		<< CYAN << "\nSP: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.SP
-		<< CYAN << "\nPC: " << NOCOLOR << PRINTHEX(4) << std::uppercase << (int) regs.PC << std::endl;
+		std::cout << CYAN << "Registers:" << std::endl
+		<< CYAN << "X: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.X << std::endl
+		<< CYAN << "Y: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.Y << std::endl
+		<< CYAN << "A: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.A << std::endl
+		<< CYAN << "P.C: " << NOCOLOR << (int) regs.P.C << std::endl
+		<< CYAN << "P.Z: " << NOCOLOR << (int) regs.P.Z << std::endl
+		<< CYAN << "P.I: " << NOCOLOR << (int) regs.P.I << std::endl
+		<< CYAN << "P.D: " << NOCOLOR << (int) regs.P.D << std::endl
+		<< CYAN << "P.B: " << NOCOLOR << (int) regs.P.B << std::endl
+		<< CYAN << "P.V: " << NOCOLOR << (int) regs.P.V << std::endl
+		<< CYAN << "P.N: " << NOCOLOR << (int) regs.P.N << std::endl
+		<< CYAN << "SP: " << NOCOLOR << PRINTHEX(2) << std::uppercase << (int) regs.SP << std::endl
+		<< CYAN << "PC: " << NOCOLOR << PRINTHEX(4) << std::uppercase << (int) regs.PC << std::endl;
 	}
 
 	void LogMemory(u16 addr, int bytes, std::shared_ptr<Core::Bus>& bus)
