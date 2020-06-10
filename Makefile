@@ -30,3 +30,4 @@ clean:
 	mkdir build/src/core/memory/mappers
 	mkdir build/src/common
 	mkdir build/src/debug
+	mkdir build/src/frontend

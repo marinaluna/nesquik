@@ -12,27 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 #pragma once
+#include <vector>
+#include <SDL2/SDL.h>
 
-#include <cstdint>
-
-
-using u8 = uint8_t;
-using u16 = uint16_t;
-using u64 = uint64_t;
-
-using s8 = int8_t;
-using s16 = int16_t;
-
-using Color = uint32_t;
+#include "../common/Common.h"
 
 
-///////////////////////////////
-// Bits of the status register
-///////////////////////////////
-#define STATUS_NEGATIVE   0x80
-#define STATUS_OVERFLOW   0x40
-#define STATUS_BREAKCMD   0x10
-#define STATUS_DECIMAL    0x08 // Unused by the NES
-#define STATUS_DISABLEINT 0x04
-#define STATUS_ZERO       0x02
-#define STATUS_CARRY      0x01
+namespace Frontend {
+
+class SDLContext
+{
+	// window size
+	int width, height, scale;
+	// sdl components
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	SDL_Texture* lcdTexture;
+	SDL_Event event;
+	// front buffer (the one that is drawn)
+	Color* frontBuffer;
+
+	bool running = true;
+
+public:
+	SDLContext(int _width, int _height, int _scale);
+	~SDLContext();
+
+	void stop() { running = false; }
+	bool isRunning() { return running; }
+
+	void update(std::vector<Color>& backBuffer);
+	void pollEvents();
+};
+
+} // namespace Frontend

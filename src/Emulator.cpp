@@ -14,9 +14,12 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <thread>
+#include "SDL2/SDL.h"
 
 #include "NES.h"
 #include "common/Common.h"
+#include "frontend/SDLContext.h"
 
 
 bool readFileToVector(std::string path, std::vector<u8>& vector)
@@ -46,6 +49,11 @@ int main(int argc, char** argv)
 
 	std::vector<u8> rom;
 
+	if(argc < 2)
+	{
+		std::cout << "Not enough arguments! Aborting!" << std::endl;
+		return -1;
+	}
 	if(!readFileToVector(argv[1], rom))
 	{
 		std::cout << "Rom failed to load! Aborting!" << std::endl;
@@ -54,10 +62,62 @@ int main(int argc, char** argv)
 
 		std::cout << "Rom loaded!" << std::endl;
 
+
+		int width = 640;
+		int height = 480;
+		
 		NES* nes = new NES(rom);
-		if(nes->boot()) {
-			// Main loop
-			nes->tick();
+		if(!nes->boot())
+			nes->stop();
+
+		Frontend::SDLContext* context = new Frontend::SDLContext(width, height, 1);
+
+
+		//////////////////////////////
+		////// Test backBuffer ///////
+		//////////////////////////////
+		std::vector<Color> backBuffer;
+		backBuffer.resize(width*height);
+		for(int i = 0; i < width*height; i++) {
+			backBuffer.at(i) = 0x00FF00FF;
 		}
+
+
+		bool updateFrame;
+		bool pollEvents;
+		// Start SDL thread
+		std::thread sdlThread([nes, context, &updateFrame, &pollEvents, &backBuffer](){
+			while(nes->isRunning() && context->isRunning())
+			{
+				if(updateFrame) {
+					context->update(backBuffer);
+					updateFrame = false;
+					pollEvents = true;
+				}
+			}
+		});
+		// Start main thread
+		{
+			while(nes->isRunning() && context->isRunning())
+			{
+				nes->tick();
+				updateFrame = true;
+
+				if(pollEvents) {
+					// For some reason you have to poll
+					// events on the main thread
+					context->pollEvents();
+					pollEvents = false;
+				}
+			}
+		}
+
+		sdlThread.join();
+		if(nes)
+			delete nes;
+		if(context)
+			delete context;
 	}
+
+	return 0;
 }

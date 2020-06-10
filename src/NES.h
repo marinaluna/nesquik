@@ -37,7 +37,7 @@ private:
 	//std::unique_ptr<Core::PPU> ppu;
 	std::shared_ptr<Core::Bus> bus;
 
-	bool isRunning;
+	bool running;
 
 public:
 	NES(std::vector<u8>& romBytes);
@@ -46,4 +46,5 @@ public:
 	void stop();
 
 	void tick();
+	bool isRunning();
 };

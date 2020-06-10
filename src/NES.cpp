@@ -39,20 +39,21 @@ bool NES::boot()
 
 	success = cart->load() && cpu->reset();
 	
-	isRunning = success;
+	running = success;
 	return success;
 }
 
 void NES::stop()
 {
-	isRunning = false;
+	running = false;
 }
 
 void NES::tick()
 {
-	while(isRunning)
-	{
+	cpu->step(1);
+}
 
-		cpu->step(1);
-	}
+bool NES::isRunning()
+{
+	return running;
 }
